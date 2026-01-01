@@ -1,0 +1,1165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#050A14] text-white antialiased;
+    font-family: 'Orbitron', sans-serif;
+  }
+}
+
+@layer components {
+  /* PARTICLES.JS BACKGROUND CONTAINER - ΣΤΑΘΕΡΟ ΚΑΙ ΑΠΛΟ */
+  #particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-color: #050A14;
+  }
+
+  /* LOADING SCREEN STYLES */
+  .loading-screen {
+    @apply fixed inset-0 z-[9999] flex items-center justify-center;
+    background: linear-gradient(135deg, #050A14 0%, #0A1020 50%, #050A14 100%);
+    overflow: hidden;
+  }
+
+  .loading-content {
+    @apply flex flex-col items-center justify-center space-y-8;
+  }
+
+  .loading-logo {
+    @apply relative;
+  }
+
+  .spinning-logo {
+    animation: spinLogo 1.5s linear infinite;
+    filter: drop-shadow(0 0 20px rgba(123, 104, 238, 0.8));
+  }
+
+  @keyframes spinLogo {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    25% {
+      transform: rotate(90deg) scale(1.1);
+    }
+    50% {
+      transform: rotate(180deg) scale(1);
+    }
+    75% {
+      transform: rotate(270deg) scale(1.1);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }
+
+  .loading-text {
+    @apply text-center;
+  }
+
+  .loading-title {
+    @apply text-4xl font-bold mb-4;
+  }
+
+  .spider-loading {
+    @apply text-white;
+    animation: loadingTextGlow 1.5s ease-in-out infinite;
+  }
+
+  .ai-loading {
+    @apply text-[#7B68EE];
+    animation: loadingTextGlow 1.5s ease-in-out infinite 0.5s;
+  }
+
+  @keyframes loadingTextGlow {
+    0%, 100% {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(123, 104, 238, 1), 0 0 30px rgba(123, 104, 238, 0.8);
+    }
+  }
+
+  /* ANIMATED PROPOSAL BUTTON - ΜΕ ΕΝΔΙΑΜΕΣΟ ΜΟΒ ΧΡΩΜΑ */
+  .animated-proposal-button {
+    position: relative;
+    overflow: hidden;
+    border: none !important;
+    border-radius: 0.5rem !important;
+  }
+
+  .animated-proposal-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      #7B68EE 20%, /* ΕΝΔΙΑΜΕΣΟ ΜΟΒ - ΙΔΙΟ ΜΕ ΤΟ .ai */
+      #9370DB 30%, /* MEDIUM SLATE BLUE */
+      #BA55D3 40%, /* MEDIUM ORCHID */
+      #FFFFFF 50%, /* ΛΕΥΚΟ ΓΙΑ ΜΕΓΙΣΤΗ ΑΝΤΙΘΕΣΗ */
+      #BA55D3 60%, /* MEDIUM ORCHID */
+      #9370DB 70%, /* MEDIUM SLATE BLUE */
+      #7B68EE 80%, /* ΕΝΔΙΑΜΕΣΟ ΜΟΒ - ΙΔΙΟ ΜΕ ΤΟ .ai */
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    /* ΕΛΑΦΡΩΣ ΓΡΗΓΟΡΟΤΕΡΟ - ΑΠΟ 8s ΣΕ 7s ΓΙΑ ΠΙΟ ΖΩΝΤΑΝΟ EFFECT */
+    animation: roundedBorderAnimation 7s linear infinite;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px rgba(123, 104, 238, 0.6));
+  }
+
+  @keyframes roundedBorderAnimation {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* ΑΦΑΙΡΕΣΗ HOVER PAUSE - ΤΟ ANIMATION ΣΥΝΕΧΙΖΕΙ ΠΑΝΤΑ */
+  /* .animated-proposal-button:hover::before,
+  .animated-proposal-button:focus::before {
+    animation-play-state: paused;
+  } */
+
+  /* SCROLLING USE CASES STYLES - PERFECTLY UNIFORM - ΧΩΡΙΣ PAUSE ON HOVER */
+  .scrolling-container {
+    @apply relative w-full overflow-hidden;
+    height: 280px;
+    mask: linear-gradient(90deg, transparent 0%, white 10%, white 90%, transparent 100%);
+    -webkit-mask: linear-gradient(90deg, transparent 0%, white 10%, white 90%, transparent 100%);
+  }
+
+  .scrolling-track {
+    @apply flex gap-6;
+    /* ΣΥΓΧΡΟΝΙΣΜΟΣ ΜΕ ΤΟ BUTTON - 35 ΔΕΥΤΕΡΟΛΕΠΤΑ ΓΙΑ ΟΜΑΛΗ ΚΙΝΗΣΗ */
+    animation: scrollRightToLeft 35s linear infinite;
+    width: fit-content;
+  }
+
+  .scrolling-card {
+    @apply flex-shrink-0;
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border: 2px solid rgba(123, 104, 238, 0.3);
+    border-radius: 12px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 4px 20px rgba(123, 104, 238, 0.1);
+    transition: all 0.3s ease;
+    
+    /* FIXED DIMENSIONS - ΑΚΡΙΒΩΣ ΙΔΙΕΣ ΓΙΑ ΟΛΕΣ */
+    width: 320px;
+    height: 240px;
+    
+    /* PERFECT GRID LAYOUT */
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: 
+      "icon"
+      "title" 
+      "description";
+    gap: 16px;
+    padding: 24px;
+    text-align: center;
+    align-items: center;
+  }
+
+  /* ΜΟΝΟ GLOW EFFECT - ΧΩΡΙΣ ΚΙΝΗΣΗ */
+  .scrolling-card:hover {
+    border-color: rgba(123, 104, 238, 0.6);
+    box-shadow: 0 10px 30px rgba(123, 104, 238, 0.3);
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+  }
+
+  @keyframes scrollRightToLeft {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* UNIFORM POSITIONING - ΟΛΟΣ Ο ΚΟΣΜΟΣ ΣΤΗΝ ΙΔΙΑ ΘΕΣΗ */
+  .use-case-icon {
+    grid-area: icon;
+    background: linear-gradient(45deg, #1A2B50, #7B68EE);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 0 10px rgba(123, 104, 238, 0.3);
+    
+    /* FIXED SIZE - ΑΚΡΙΒΩΣ ΙΔΙΟ ΓΙΑ ΟΛΟΥΣ */
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  .use-case-title {
+    grid-area: title;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: white;
+    margin: 0;
+    line-height: 1.3;
+    
+    /* FIXED HEIGHT - ΑΚΡΙΒΩΣ ΙΔΙΟ ΓΙΑ ΟΛΟΥΣ */
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .use-case-description {
+    grid-area: description;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    color: #c0c0c0;
+    margin: 0;
+    
+    /* PERFECT ALIGNMENT - ΟΛΕΣ ΟΙ ΠΕΡΙΓΡΑΦΕΣ ΣΤΗΝ ΙΔΙΑ ΘΕΣΗ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    align-self: start;
+  }
+
+  .section-divider {
+    @apply relative w-full h-24 flex items-center justify-center;
+    /* ΜΕΙΩΜΕΝΑ MARGINS ΓΙΑ DESKTOP */
+    margin: 48px 0;
+    background: radial-gradient(ellipse at center, rgba(123, 104, 238, 0.2) 0%, transparent 70%);
+  }
+
+  .divider-line {
+    @apply absolute w-full h-px;
+    background: linear-gradient(90deg, transparent 0%, rgba(123, 104, 238, 0.5) 20%, #7B68EE 50%, rgba(123, 104, 238, 0.5) 80%, transparent 100%);
+  }
+
+  .divider-glow {
+    @apply absolute w-64 h-16 blur-2xl;
+    background: radial-gradient(ellipse, rgba(123, 104, 238, 0.2) 0%, rgba(123, 104, 238, 0.2) 30%, transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+
+  .section-content {
+    @apply relative z-10;
+    background: radial-gradient(ellipse at center, rgba(123, 104, 238, 0.05) 0%, transparent 70%);
+  }
+
+  /* ΝΕΟΣ ΣΤΥΛ ΓΙΑ Spider.ai - ΧΩΡΙΣ ANIMATION */
+  .domain-name {
+    font-size: 72px;
+    font-weight: 800;
+  }
+
+  .domain-name span {
+    display: inline-block;
+  }
+
+  /* ΛΕΥΚΟ "Spider" - ΧΩΡΙΣ ANIMATION */
+  .spider-static {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+
+  /* ΔΙΑΚΡΙΤΙΚΟ ΛΑΜΠΕΡΟ ΜΟΒ ".ai" - ΟΡΑΤΟ ΚΑΙ ΟΜΟΡΦΟ */
+  .ai-glowing {
+    color: #7b68ee;
+    /* ΠΟΛΥ ΠΙΟ ΔΙΑΚΡΙΤΙΚΟ GLOW - ΟΡΑΤΟ ΚΕΙΜΕΝΟ */
+    text-shadow: 
+      0 0 5px rgba(123, 104, 238, 0.4),
+      0 0 10px rgba(123, 104, 238, 0.3),
+      0 0 15px rgba(123, 104, 238, 0.2);
+    
+    /* ΕΛΑΦΡΥ ΚΑΘΡΕΦΤΗ EFFECT - ΠΙΟ ΔΙΑΚΡΙΤΙΚΟ */
+    filter: drop-shadow(0 0 8px rgba(123, 104, 238, 0.4));
+  }
+
+  /* ΙΔΙΟ ΧΡΩΜΑ ΜΕ ΤΟ .ai ΑΠΟ ΤΟ HOME SECTION - ΧΩΡΙΣ GLOW EFFECTS */
+  .spider-ai-simple {
+    color: #7b68ee;
+  }
+
+  .tagline {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #e0e0e0;
+  }
+
+  .serious-buyers {
+    font-size: 20px;
+    font-weight: 500;
+    color: #7B68EE;
+    letter-spacing: 0.5px;
+  }
+
+  .button-container {
+    @apply w-[220px];
+  }
+
+  .inquiry-button {
+    background: linear-gradient(45deg, #1A2B50, #7B68EE);
+    border: none;
+    font-size: 15px;
+    width: 100%;
+    height: 50px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    padding: 0 1rem;
+    min-width: 220px;
+    color: white;
+    box-shadow: 0 0 10px rgba(123, 104, 238, 0.2);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .inquiry-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(123, 104, 238, 0.6);
+      background: linear-gradient(45deg, #2A3B60, #8B78FF);
+    }
+  }
+
+  .why-spider-title {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: white;
+  }
+
+  .why-spider-description {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.3px;
+    color: #e0e0e0;
+  }
+
+  .contact-title {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: white;
+  }
+
+  .contact-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    color: #e0e0e0;
+  }
+
+  .contact-form-container {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border: 2px solid rgba(123, 104, 238, 0.3);
+    border-radius: 12px;
+    padding: 32px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(123, 104, 238, 0.2);
+  }
+
+  .contact-form {
+    @apply space-y-6;
+  }
+
+  .form-group {
+    @apply w-full;
+  }
+
+  /* ΕΙΔΙΚΗ ΔΙΑΧΕΙΡΙΣΗ ΓΙΑ ΤΟ TEXTAREA (MESSAGE) */
+  .form-input-container {
+    @apply relative flex;
+  }
+
+  /* ΔΙΑΦΟΡΕΤΙΚΗ ΘΕΣΗ ΓΙΑ INPUT ΚΑΙ TEXTAREA */
+  .form-input-container:has(input) {
+    @apply items-center; /* Κεντραρισμένα για input fields */
+  }
+
+  .form-input-container:has(textarea) {
+    @apply items-start; /* Στην κορυφή για textarea */
+  }
+
+  /* ΜΟΒ ICONS ΚΑΙ ΟΜΟΙΟΜΟΡΦΗ ΘΕΣΗ */
+  .form-icon {
+    @apply absolute left-4 z-10;
+    color: #7B68EE;
+  }
+
+  /* ΕΙΔΙΚΗ ΘΕΣΗ ΓΙΑ ΤΟ MESSAGE ICON - ΛΙΓΟ ΠΙΟ ΧΑΜΗΛΑ */
+  .form-input-container:has(textarea) .form-icon {
+    top: 18px; /* Κατέβηκε από 14px σε 18px */
+  }
+
+  .form-input {
+    @apply w-full pl-12 pr-4 py-3 bg-transparent border-2 rounded-lg;
+    border-color: rgba(123, 104, 238, 0.3);
+    @apply focus:outline-none transition-colors duration-300;
+    @apply text-white font-medium;
+    font-size: 16px;
+    backdrop-filter: blur(8px);
+    min-height: 48px;
+  }
+
+  .form-input:focus {
+    border-color: rgba(123, 104, 238, 0.6);
+    box-shadow: 0 0 10px rgba(123, 104, 238, 0.2);
+  }
+
+  /* ΛΕΥΚΑ PLACEHOLDERS */
+  .form-input::placeholder {
+    color: white;
+    opacity: 0.8;
+  }
+
+  /* ΜΕΓΑΛΟ ΚΟΥΜΠΙ SEND MESSAGE - ΜΕ ΜΟΒ SUCCESS STATE */
+  .send-message-button {
+    background: linear-gradient(45deg, #1A2B50, #7B68EE);
+    border: 2px solid #7B68EE;
+    font-size: 16px;
+    width: 100%;
+    height: 50px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-radius: 0.5rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(123, 104, 238, 0.2);
+  }
+
+  /* ΜΟΒ SUCCESS STATE - ΑΝΤΙ ΓΙΑ ΠΡΑΣΙΝΟ */
+  .send-message-button.success {
+    background: linear-gradient(45deg, #8B5CF6, #A855F7);
+    border-color: #8B5CF6;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .send-message-button:hover:not(.success) {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(123, 104, 238, 0.6);
+      background: linear-gradient(45deg, #2A3B60, #8B78FF);
+    }
+  }
+
+  .success-message {
+    @apply text-center text-green-400 py-8;
+  }
+
+  .error-message {
+    @apply text-red-400 text-sm text-center;
+  }
+
+  /* MOBILE MENU BUTTON - ELEGANT DESIGN */
+  .mobile-menu-button {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border: 2px solid rgba(123, 104, 238, 0.3);
+    @apply p-2 rounded-full;
+    color: white;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(123, 104, 238, 0.1);
+    
+    /* ΓΡΗΓΟΡΟΤΕΡΑ TRANSITIONS ΓΙΑ MOBILE */
+    transition: all 0.15s ease-out;
+    
+    /* HARDWARE ACCELERATION */
+    transform: translateZ(0);
+    will-change: transform, box-shadow, background;
+    
+    /* ΣΤΑΘΕΡΟ ΜΕΓΕΘΟΣ */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* MOBILE MENU BUTTON ACTIVE STATE */
+  .mobile-menu-button:active {
+    color: white;
+    border-color: rgba(123, 104, 238, 0.6);
+    box-shadow: 0 4px 15px rgba(123, 104, 238, 0.3);
+    transform: translateY(-0.5px) scale(0.98) translateZ(0);
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+    transition: all 0.1s ease-out;
+  }
+
+  /* MOBILE MENU STYLES - PROFESSIONAL & ELEGANT */
+  .mobile-menu-backdrop {
+    @apply fixed inset-0 z-[60];
+    background: rgba(5, 10, 20, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .mobile-menu-panel {
+    @apply fixed top-0 right-0 h-full z-[70];
+    width: 280px;
+    background: linear-gradient(135deg, rgba(5, 10, 20, 0.95), rgba(26, 43, 80, 0.9));
+    border-left: 2px solid rgba(123, 104, 238, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: -10px 0 30px rgba(123, 104, 238, 0.2);
+    
+    /* PERFECT LAYOUT */
+    display: flex;
+    flex-direction: column;
+    
+    /* HARDWARE ACCELERATION */
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* MOBILE MENU HEADER */
+  .mobile-menu-header {
+    @apply flex items-center justify-between p-6;
+    border-bottom: 1px solid rgba(123, 104, 238, 0.2);
+    flex-shrink: 0;
+  }
+
+  .mobile-menu-close {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border: 2px solid rgba(123, 104, 238, 0.3);
+    @apply p-2 rounded-full;
+    color: white;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(123, 104, 238, 0.1);
+    
+    /* ΓΡΗΓΟΡΟΤΕΡΑ TRANSITIONS */
+    transition: all 0.15s ease-out;
+    
+    /* ΣΤΑΘΕΡΟ ΜΕΓΕΘΟΣ */
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mobile-menu-close:active {
+    color: white;
+    border-color: rgba(123, 104, 238, 0.6);
+    box-shadow: 0 4px 15px rgba(123, 104, 238, 0.3);
+    transform: scale(0.95);
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+  }
+
+  /* MOBILE MENU NAVIGATION */
+  .mobile-menu-nav {
+    @apply flex flex-col p-6 space-y-4;
+    flex: 1;
+  }
+
+  /* MOBILE MENU ITEMS - ΜΟΝΟ GLOW EFFECT - ΧΩΡΙΣ ΚΙΝΗΣΗ */
+  .mobile-menu-item {
+    @apply flex items-center justify-between p-4 rounded-lg;
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.4), rgba(123, 104, 238, 0.05));
+    border: 1px solid rgba(123, 104, 238, 0.2);
+    backdrop-filter: blur(8px);
+    
+    /* ΜΟΝΟ GLOW EFFECTS - ΧΩΡΙΣ TRANSFORM/ΚΙΝΗΣΗ */
+    transition: 
+      background 0.05s ease-out, 
+      border-color 0.05s ease-out, 
+      box-shadow 0.05s ease-out;
+    
+    /* HARDWARE ACCELERATION */
+    transform: translateZ(0);
+    will-change: background, border-color, box-shadow;
+    
+    /* TOUCH OPTIMIZATION */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ΜΟΝΟ GLOW HOVER FEEDBACK - ΧΩΡΙΣ ΚΙΝΗΣΗ */
+  .mobile-menu-item:hover {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border-color: rgba(123, 104, 238, 0.3);
+    box-shadow: 0 2px 10px rgba(123, 104, 238, 0.15);
+    /* ΑΦΑΙΡΕΣΗ TRANSFORM - ΧΩΡΙΣ ΚΙΝΗΣΗ */
+  }
+
+  /* ΜΟΝΟ GLOW TOUCH FEEDBACK - ΧΩΡΙΣ ΚΙΝΗΣΗ */
+  .mobile-menu-item:active {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.7), rgba(123, 104, 238, 0.15));
+    border-color: rgba(123, 104, 238, 0.4);
+    box-shadow: 0 4px 15px rgba(123, 104, 238, 0.2);
+    /* ΑΦΑΙΡΕΣΗ TRANSFORM - ΧΩΡΙΣ ΚΙΝΗΣΗ */
+  }
+
+  .mobile-menu-item-text {
+    @apply text-white font-medium text-lg;
+    letter-spacing: 0.3px;
+    pointer-events: none; /* ΑΠΟΦΥΓΗ INTERFERENCE */
+  }
+
+  .mobile-menu-item-arrow {
+    @apply text-[#7B68EE] font-bold text-xl;
+    /* ΑΦΑΙΡΕΣΗ TRANSITION - ΧΩΡΙΣ ΚΙΝΗΣΗ ARROW */
+    pointer-events: none; /* ΑΠΟΦΥΓΗ INTERFERENCE */
+  }
+
+  /* ΑΦΑΙΡΕΣΗ ARROW ANIMATIONS - ΧΩΡΙΣ ΚΙΝΗΣΗ */
+  /* .mobile-menu-item:hover .mobile-menu-item-arrow {
+    transform: translateX(2px);
+  }
+
+  .mobile-menu-item:active .mobile-menu-item-arrow {
+    transform: translateX(4px);
+  } */
+
+  /* MOBILE MENU FOOTER */
+  .mobile-menu-footer {
+    @apply p-6;
+    border-top: 1px solid rgba(123, 104, 238, 0.2);
+    flex-shrink: 0;
+  }
+
+  .mobile-menu-social {
+    @apply flex justify-center gap-4;
+  }
+
+  /* MOBILE MENU SOCIAL LINKS - ΙΔΙΑ EFFECTS ΜΕ DESKTOP */
+  .mobile-menu-social-link {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border: 2px solid rgba(123, 104, 238, 0.3);
+    @apply p-3 rounded-full;
+    color: white;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(123, 104, 238, 0.1);
+    
+    /* ΓΡΗΓΟΡΟΤΕΡΑ TRANSITIONS */
+    transition: all 0.15s ease-out;
+    
+    /* HARDWARE ACCELERATION */
+    transform: translateZ(0);
+    will-change: transform, box-shadow, background;
+    
+    /* ΣΤΑΘΕΡΟ ΜΕΓΕΘΟΣ */
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* DESKTOP HOVER EFFECTS - ΜΟΝΟ ΓΙΑ ΠΡΑΓΜΑΤΙΚΑ HOVER DEVICES */
+  @media (hover: hover) and (pointer: fine) {
+    .mobile-menu-social-link:hover {
+      color: white;
+      border-color: rgba(123, 104, 238, 0.6);
+      box-shadow: 0 6px 20px rgba(123, 104, 238, 0.3);
+      transform: translateY(-2px) translateZ(0);
+      background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+    }
+  }
+
+  /* MOBILE TOUCH EFFECTS - ΓΡΗΓΟΡΑ ΚΑΙ RESPONSIVE */
+  @media (hover: none) and (pointer: coarse) {
+    .mobile-menu-social-link:active {
+      color: white;
+      border-color: rgba(123, 104, 238, 0.6);
+      box-shadow: 0 6px 20px rgba(123, 104, 238, 0.3);
+      transform: translateY(-1px) scale(0.98) translateZ(0);
+      background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+      transition: all 0.1s ease-out;
+    }
+  }
+
+  /* ΒΕΛΤΙΣΤΟΠΟΙΗΜΕΝΑ SOCIAL MEDIA LINKS - ΓΡΗΓΟΡΑ MOBILE EFFECTS */
+  .social-link {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border: 2px solid rgba(123, 104, 238, 0.3);
+    @apply p-3 rounded-full;
+    color: white;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(123, 104, 238, 0.1);
+    
+    /* ΓΡΗΓΟΡΟΤΕΡΑ TRANSITIONS ΓΙΑ MOBILE */
+    transition: all 0.15s ease-out;
+    
+    /* HARDWARE ACCELERATION ΓΙΑ ΚΑΛΥΤΕΡΗ ΑΠΟΔΟΣΗ */
+    transform: translateZ(0);
+    will-change: transform, box-shadow, background;
+  }
+
+  /* DESKTOP HOVER EFFECTS - ΜΟΝΟ ΓΙΑ ΠΡΑΓΜΑΤΙΚΑ HOVER DEVICES */
+  @media (hover: hover) and (pointer: fine) {
+    .social-link:hover {
+      color: white;
+      border-color: rgba(123, 104, 238, 0.6);
+      box-shadow: 0 6px 20px rgba(123, 104, 238, 0.3);
+      transform: translateY(-2px) translateZ(0);
+      background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+    }
+  }
+
+  /* MOBILE TOUCH EFFECTS - ΓΡΗΓΟΡΑ ΚΑΙ RESPONSIVE */
+  @media (hover: none) and (pointer: coarse) {
+    .social-link:active {
+      color: white;
+      border-color: rgba(123, 104, 238, 0.6);
+      box-shadow: 0 6px 20px rgba(123, 104, 238, 0.3);
+      transform: translateY(-1px) scale(0.98) translateZ(0);
+      background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+      transition: all 0.1s ease-out;
+    }
+  }
+
+  /* HEADER STYLES - ΜΕ ΔΙΑΦΑΝΕΙΑ */
+  header {
+    /* ΣΤΑΘΕΡΟ POSITIONING - ΧΩΡΙΣ VIEWPORT UNITS */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    
+    /* ΔΙΑΦΑΝΕΣ BACKGROUND - ΝΑ ΠΕΡΝΑΝΕ ΤΑ PARTICLES */
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
+    /* ΣΤΑΘΕΡΟ BORDER */
+    border-bottom: 1px solid rgba(34, 53, 102, 0.3);
+    
+    /* MINIMUM HEIGHT ΓΙΑ ΣΤΑΘΕΡΟΤΗΤΑ */
+    min-height: 72px;
+    
+    /* HARDWARE ACCELERATION */
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /* HEADER CONTAINER - ΒΕΛΤΙΣΤΟΠΟΙΗΜΕΝΟ */
+  header > div {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    /* MINIMUM HEIGHT ΓΙΑ CONSISTENCY */
+    min-height: 40px;
+    
+    /* FLEXBOX STABILITY */
+    flex-wrap: nowrap;
+  }
+
+  /* LOGO SECTION - ΣΤΑΘΕΡΟ */
+  header .flex.items-center.gap-3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    
+    /* MINIMUM WIDTH ΓΙΑ ΣΤΑΘΕΡΟΤΗΤΑ */
+    min-width: 120px;
+  }
+
+  /* LOGO TEXT - ΣΤΑΘΕΡΟ ΜΕΓΕΘΟΣ */
+  header .text-white.text-xl.font-semibold {
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
+  .desktop-nav-center {
+    @apply hidden md:flex items-center gap-8;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* ΣΤΑΘΕΡΟΤΗΤΑ ΣΕ ZOOM */
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .desktop-social-links {
+    @apply hidden md:flex items-center gap-4;
+    flex-shrink: 0;
+    
+    /* MINIMUM WIDTH ΓΙΑ ΣΤΑΘΕΡΟΤΗΤΑ */
+    min-width: 120px;
+    justify-content: flex-end;
+  }
+
+  /* ΒΕΛΤΙΣΤΟΠΟΙΗΜΕΝΑ HEADER SOCIAL ICONS */
+  .header-social-link {
+    background: linear-gradient(135deg, rgba(26, 43, 80, 0.6), rgba(123, 104, 238, 0.1));
+    border: 2px solid rgba(123, 104, 238, 0.3);
+    @apply p-2 rounded-full;
+    color: white;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(123, 104, 238, 0.1);
+    
+    /* ΓΡΗΓΟΡΟΤΕΡΑ TRANSITIONS ΓΙΑ MOBILE */
+    transition: all 0.15s ease-out;
+    
+    /* HARDWARE ACCELERATION */
+    transform: translateZ(0);
+    will-change: transform, box-shadow, background;
+    
+    /* ΣΤΑΘΕΡΟ ΜΕΓΕΘΟΣ */
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* DESKTOP HOVER EFFECTS - ΜΟΝΟ ΓΙΑ ΠΡΑΓΜΑΤΙΚΑ HOVER DEVICES */
+  @media (hover: hover) and (pointer: fine) {
+    .header-social-link:hover {
+      color: white;
+      border-color: rgba(123, 104, 238, 0.6);
+      box-shadow: 0 4px 15px rgba(123, 104, 238, 0.3);
+      transform: translateY(-1px) translateZ(0);
+      background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+    }
+  }
+
+  /* MOBILE TOUCH EFFECTS - ΓΡΗΓΟΡΑ ΚΑΙ RESPONSIVE */
+  @media (hover: none) and (pointer: coarse) {
+    .header-social-link:active {
+      color: white;
+      border-color: rgba(123, 104, 238, 0.6);
+      box-shadow: 0 4px 15px rgba(123, 104, 238, 0.3);
+      transform: translateY(-0.5px) scale(0.98) translateZ(0);
+      background: linear-gradient(135deg, rgba(26, 43, 80, 0.8), rgba(123, 104, 238, 0.2));
+      transition: all 0.1s ease-out;
+    }
+  }
+
+  /* MOBILE SOCIAL LINKS */
+  .mobile-social-links {
+    @apply flex justify-center gap-6 py-8 md:hidden;
+  }
+
+  footer {
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  /* DESKTOP SPECIFIC STYLES - ΜΕΙΩΜΕΝΑ MARGINS */
+  @media (min-width: 768px) {
+    .section-divider {
+      margin: 48px 0; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 64px ΣΕ 48px */
+    }
+  }
+
+  /* Mobile Responsive - ΒΕΛΤΙΣΤΟΠΟΙΗΜΕΝΟ ΓΙΑ ZOOM STABILITY */
+  @media (max-width: 767px) {
+    /* MOBILE HEADER - EXTRA ΣΤΑΘΕΡΟΤΗΤΑ */
+    header {
+      min-height: 64px;
+      padding: 0;
+    }
+
+    header > div {
+      padding: 12px 16px;
+      min-height: 40px;
+    }
+
+    /* MOBILE LOGO - ΜΙΚΡΟΤΕΡΟ ΜΕΓΕΘΟΣ */
+    header .text-white.text-xl.font-semibold {
+      font-size: 18px;
+    }
+
+    /* MOBILE HOME SECTION - ΜΕΙΩΜΕΝΟ PADDING TOP ΓΙΑ ΛΙΓΟΤΕΡΟ ΚΕΝΟ ΧΩΡΟ */
+    .section-content {
+      padding-top: 32px; /* ΜΕΙΩΜΕΝΟ ΑΠΟ DEFAULT */
+    }
+
+    /* MOBILE MAIN CONTENT - ΜΕΙΩΜΕΝΑ SPACES */
+    main {
+      padding-top: 64px; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 80px */
+    }
+
+    .domain-name {
+      font-size: 48px;
+    }
+
+    .tagline {
+      font-size: 20px;
+    }
+
+    .why-spider-title {
+      font-size: 36px;
+    }
+
+    .why-spider-description {
+      font-size: 16px;
+    }
+
+    .contact-title {
+      font-size: 28px;
+    }
+
+    /* MOBILE SCROLLING CARDS - PERFECTLY UNIFORM */
+    .scrolling-container {
+      height: 220px;
+    }
+
+    .scrolling-card {
+      /* FIXED MOBILE DIMENSIONS */
+      width: 280px;
+      height: 200px;
+      padding: 20px;
+      gap: 12px;
+      
+      /* SAME GRID LAYOUT */
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      grid-template-areas: 
+        "icon"
+        "title" 
+        "description";
+    }
+
+    .use-case-icon {
+      /* FIXED MOBILE ICON SIZE */
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+    }
+
+    .use-case-title {
+      font-size: 16px;
+      /* FIXED MOBILE TITLE HEIGHT */
+      height: 20px;
+    }
+
+    .use-case-description {
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .inquiry-button {
+      font-size: 15px;
+      min-height: 44px;
+      width: 220px;
+      min-width: 220px;
+      padding: 0.625rem 1rem;
+    }
+
+    .contact-form-container {
+      padding: 24px;
+    }
+
+    /* ΠΟΛΥ ΜΕΙΩΜΕΝΑ SECTION DIVIDER MARGINS ΓΙΑ MOBILE - ΛΙΓΟΤΕΡΟΣ ΚΕΝΟΣ ΧΩΡΟΣ */
+    .section-divider {
+      margin: 24px 0; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 32px ΣΕ 24px */
+    }
+
+    /* MOBILE LOADING SCREEN */
+    .loading-title {
+      @apply text-3xl;
+    }
+
+    .spinning-logo {
+      @apply w-20 h-20;
+    }
+  }
+
+  @media (max-width: 640px) {
+    /* EXTRA SMALL MOBILE HEADER */
+    header {
+      min-height: 60px;
+    }
+
+    header > div {
+      padding: 10px 12px;
+      min-height: 36px;
+    }
+
+    /* EXTRA SMALL MOBILE LOGO */
+    header .text-white.text-xl.font-semibold {
+      font-size: 16px;
+    }
+
+    /* EXTRA SMALL MOBILE - ΑΚΟΜΗ ΛΙΓΟΤΕΡΟΣ ΚΕΝΟΣ ΧΩΡΟΣ */
+    main {
+      padding-top: 60px; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 64px */
+    }
+
+    .section-content {
+      padding-top: 24px; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 32px */
+    }
+
+    .domain-name {
+      font-size: 40px;
+    }
+
+    .tagline {
+      font-size: 18px;
+    }
+
+    .serious-buyers {
+      font-size: 16px;
+    }
+
+    .why-spider-title {
+      font-size: 28px;
+    }
+
+    .why-spider-description {
+      font-size: 15px;
+    }
+
+    .contact-title {
+      font-size: 24px;
+    }
+
+    .button-container {
+      @apply w-[220px];
+    }
+
+    /* SMALL MOBILE SCROLLING CARDS - PERFECTLY UNIFORM */
+    .scrolling-container {
+      height: 200px;
+    }
+
+    .scrolling-card {
+      /* FIXED SMALL MOBILE DIMENSIONS */
+      width: 260px;
+      height: 180px;
+      padding: 18px;
+      gap: 10px;
+    }
+
+    .use-case-icon {
+      /* FIXED SMALL MOBILE ICON SIZE */
+      width: 36px;
+      height: 36px;
+      padding: 6px;
+    }
+
+    .use-case-title {
+      font-size: 15px;
+      /* FIXED SMALL MOBILE TITLE HEIGHT */
+      height: 18px;
+    }
+
+    .use-case-description {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .contact-form-container {
+      padding: 20px;
+    }
+
+    /* ΑΚΟΜΗ ΠΙΟ ΜΕΙΩΜΕΝΑ SECTION DIVIDER MARGINS ΓΙΑ SMALL MOBILE */
+    .section-divider {
+      margin: 20px 0; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 28px ΣΕ 20px */
+    }
+
+    /* EXTRA SMALL MOBILE LOADING SCREEN */
+    .loading-title {
+      @apply text-2xl;
+    }
+
+    .spinning-logo {
+      @apply w-16 h-16;
+    }
+
+    /* MOBILE MENU PANEL - SMALLER WIDTH FOR SMALL SCREENS */
+    .mobile-menu-panel {
+      width: 260px;
+    }
+  }
+
+  /* ΕΙΔΙΚΕΣ ΡΥΘΜΙΣΕΙΣ ΓΙΑ ΠΟΛΥ ΜΙΚΡΕΣ ΟΘΟΝΕΣ - ZOOM STABILITY */
+  @media (max-width: 360px) {
+    header {
+      min-height: 56px;
+    }
+
+    header > div {
+      padding: 8px 10px;
+      min-height: 32px;
+    }
+
+    header .text-white.text-xl.font-semibold {
+      font-size: 14px;
+    }
+
+    /* LOGO ICON - ΜΙΚΡΟΤΕΡΟ ΣΕ ΠΟΛΥ ΜΙΚΡΕΣ ΟΘΟΝΕΣ */
+    header .w-6.h-6 {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ΠΟΛΥ ΜΙΚΡΕΣ ΟΘΟΝΕΣ - ΕΛΑΧΙΣΤΟΣ ΚΕΝΟΣ ΧΩΡΟΣ */
+    main {
+      padding-top: 56px; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 60px */
+    }
+
+    .section-content {
+      padding-top: 20px; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 24px */
+    }
+
+    /* ΕΛΑΧΙΣΤΑ MARGINS ΓΙΑ ΠΟΛΥ ΜΙΚΡΕΣ ΟΘΟΝΕΣ */
+    .section-divider {
+      margin: 16px 0; /* ΜΕΙΩΜΕΝΟ ΑΠΟ 24px ΣΕ 16px */
+    }
+
+    /* MOBILE MENU PANEL - EVEN SMALLER WIDTH FOR VERY SMALL SCREENS */
+    .mobile-menu-panel {
+      width: 240px;
+    }
+  }
+}
